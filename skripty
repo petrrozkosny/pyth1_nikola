@@ -1,0 +1,43 @@
+import pathlib
+import datetime
+
+# cesta slozky, kterou chceme prochazet
+cesta = r'C:\Users\petrrozkosny\Desktop\data'
+cesta_meteo2 = r'C:\Users\petrrozkosny\Desktop\data\meteo2'
+cil = r'C:\Users\petrrozkosny\Desktop\vltava.xlsx'
+soubory = list(pathlib.Path(cesta).glob('**/*'))
+
+
+# # V promenne path mame kazdou jednu polozku z dane slozky
+# for path in pathlib.Path(cesta).iterdir():
+#     # pokud je polozka souborem, tj. ne slozkou
+#     if path.is_file():
+#     # if path is folder
+#         print(path.name)
+#         # pokud se nazev souboru rovna dim_geo.xlsx
+#         if path.name == 'dim_geo.xlsx':
+#             # odstran soubor
+#             path.unlink()
+#             #vypis informaci uzivateli
+#             print(f'soubor odstranen: {path.name}')
+#         elif path.name == 'vltava.xlsx':
+#             # presun soubor na plochu
+#             path.rename(cil)
+#     elif path.is_dir():
+#         print(path.name + " je složka")
+
+# # ----------------------------
+
+# prochazeni slozky
+for soubor in pathlib.Path(cesta_meteo2).iterdir():
+    # okamzik vytvoreni souboru
+    # datum vytvoreni souboru v timestamp
+    vytvoreni = soubor.stat().st_ctime
+    nazev_souboru = pathlib.Path(soubor).stem
+    print(nazev_souboru)
+    # preved na datetime
+    vytvoreni = datetime.datetime.fromtimestamp(vytvoreni).date()
+    #novy nazev souboru, skladame retezec slozky s meteo2, za nej datum vytvoreni, nazev souboru a typ souboru
+    novy_nazev = f'{cesta_meteo2}/{vytvoreni}_{nazev_souboru}{pathlib.Path(soubor).suffix}'
+    # menime puvodni nazev souboru na novy_nazev souboru
+    pathlib.Path(soubor).rename(novy_nazev)
