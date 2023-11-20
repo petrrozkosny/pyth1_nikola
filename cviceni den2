@@ -1,0 +1,28 @@
+1. Vytvořte prázdný list velka_mesta
+2. Vytvořte proměnnou mesta_cr typu slovník s těmito hodnotami:
+
+{
+    'praha': 1300000,
+    'brno': 380000,
+    'ostrava': 290000,
+    'plzen': 175000,
+    'liberec': 105000
+}
+
+3. Procházejte slovníkem, pokud je hodnota klíče >=300000, přidejte klíč hodnoty do listu velka_mesta
+4. Do slovníku přijdete klíč:hodnota olomouc:100000
+5. Vypište uživateli zprávu do konzole:
+	- Pokud je v listu velka_mesta hodnota pardubice, tak "List velkých měst obsahuje Pardubice"
+	- Pokud v lsitu velka_mesta hodnota pardubice není, tak "List velkých měst neobsahuje Pardubice"
+6. Vypište uživateli zprávu: Proměnná velka_mesta obsahuje x počet měst" (místo x bude aktuální počet položek v listu)
+7. Do promenne obyvatele si uložte list hodnot (values) ze slovníku mesta_cr
+8. Do promenne obyvatele_maximum vypočítejte za pomoci funkce max() maximální hodnotu z proměnné obyvatele
+__________________________________________________________________________________________________________
+
+1. Naimportujte modul pathlib
+2. Do proměnné cesta uložte cestu složky meteo1
+3. Procházejte položkami ve složce meteo1
+4. Uživateli vypište do konzole název aktuální položky
+5. Pokud položka obsahuje v názvu 'labe', tak položku smažte
+___________________________________________________________________________________________________________
+
