@@ -1,0 +1,30 @@
+import requests
+from bs4 import BeautifulSoup
+
+org = 'OSJIMJI'
+cislo_senatu = 104
+druh_veci = 'C'
+vec = 2
+rocnik = 2023
+
+
+url = 'https://infosoud.justice.cz/InfoSoud/public/search.do?type=spzn&typSoudu=os&krajOrg=VSECHNY_KRAJE&org=OSJIMJI&cisloSenatu=104&druhVec=C&bcVec=2&rocnik=2023&spamQuestion=23&agendaNc=CIVIL'
+
+stranka = requests.get(url)
+
+status = stranka.status_code
+
+# Pokud je status 200, pokracujem dale, jinak skript koncime s hlaskou "Stranka neexistuje"
+
+soup = BeautifulSoup(stranka.text, 'html.parser')
+soup = soup.get_text()
+
+
+'''
+Zjistěte, jestli v textu proměnné soup je řetězec 'Datum pravomocného ukončení'
+Pokud ano, vypište uživateli "Ukončeno, jinak vypište "Neukončeno
+'''
+
+'''
+Bonus: Do URL dosaďte proměnné z úvodu skriptu, abychom adresu udělali dynamickou
+'''
