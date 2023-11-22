@@ -1,0 +1,29 @@
+# Modul pro praci s argumenty z prikazove radky
+import argparse
+
+
+
+def pozvi():
+    print('Zvu vás')
+
+def pozdrav():
+    print(f'Ahoj uzivateli')
+
+def rozlouceni(uzivatel):
+    print(f'Na shledanou {uzivatel}')  
+
+# Vytvoření parseru
+parser = argparse.ArgumentParser(description='Demo skript pro funkci pozdrav')
+# Definování argumentů
+# Ukladame hodnotu argumentu datoveho typu string
+parser.add_argument('--funkce','-f', type=str ,help='Aktivuje funkci pozdrav')
+# Pokud uzivatel argument pouzije, bude mit promennou  hodnotu True
+parser.add_argument('--rozlouceni','-r', action='store_true', help='Vypise rozlouceni')
+
+# Získání argumentů z příkazové řádky
+args = parser.parse_args()
+
+if args.rozlouceni:
+    rozlouceni('uzivateli')
+if args.funkce:
+    globals()[args.funkce]()
