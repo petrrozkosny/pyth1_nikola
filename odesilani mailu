@@ -1,0 +1,22 @@
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
+
+odesilatel = 'rozkosny@ccmgroup.cz'
+prijemce = 'petr.rozkosny@ictpro.cz'
+heslo = ''
+
+
+msg = MIMEMultipart()
+msg['From'] = odesilatel
+msg['To'] = prijemce
+msg['Subject'] = 'pozor, pozor'
+msg.attach(MIMEText('Toto je testovaci zprava'))
+
+server = smtplib.SMTP('smtp.office365.com', 587) # Nahraďte svým SMTP serverem a portem
+server.starttls() # Aktivace TLS pro zabezpečení
+server.login(odesilatel, heslo)
+text = msg.as_string()
+server.sendmail(odesilatel, prijemce, text)
+server.quit()
