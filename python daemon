@@ -1,0 +1,134 @@
+# https://www.geeksforgeeks.org/python-daemon-threads/
+
+import sys
+import time
+import atexit
+from signal import SIGTERM
+import os
+
+class Daemon:
+    def __init__(self, pidfile, stdin='/dev/null', stdout='/dev/null', stderr='/dev/null'):
+        # Inicializace daemonu s cestami k souborům pro standardní vstup/výstup a chybové hlášení
+        self.stdin = stdin
+        self.stdout = stdout
+        self.stderr = stderr
+        self.pidfile = pidfile
+
+    def daemonize(self):
+        # Vytvoření dítěte procesu a ukončení rodiče
+        try:
+            pid = os.fork()
+            if pid > 0:
+                sys.exit(0)
+        except OSError as err:
+            sys.stderr.write(f'fork #1 failed: {err}\n')
+            sys.exit(1)
+
+        # Odpojení od rodičovského prostředí
+        os.chdir('/')
+        os.setsid()
+        os.umask(0)
+
+        # Druhé vytvoření dítěte procesu
+        try:
+            pid = os.fork()
+            if pid > 0:
+                sys.exit(0)
+        except OSError as err:
+            sys.stderr.write(f'fork #2 failed: {err}\n')
+            sys.exit(1)
+
+        # Přesměrování standardních souborů
+        sys.stdout.flush()
+        sys.stderr.flush()
+        si = open(self.stdin, 'r')
+        so = open(self.stdout, 'a+')
+        se = open(self.stderr, 'a+')
+
+        os.dup2(si.fileno(), sys.stdin.fileno())
+        os.dup2(so.fileno(), sys.stdout.fileno())
+        os.dup2(se.fileno(), sys.stderr.fileno())
+
+        # Zápis PID do pidfile a registrace metody pro jeho odstranění
+        atexit.register(self.delpid)
+        pid = str(os.getpid())
+        with open(self.pidfile, 'w+') as f:
+            f.write(pid + '\n')
+
+    def delpid(self):
+        os.remove(self.pidfile)
+
+    def start(self):
+        # Kontrola, zda již daemon neběží
+        try:
+            with open(self.pidfile, 'r') as pf:
+                pid = int(pf.read().strip())
+        except IOError:
+            pid = None
+
+        if pid:
+            message = f"pidfile {self.pidfile} already exist. Daemon already running?\n"
+            sys.stderr.write(message)
+            sys.exit(1)
+
+        # Spuštění daemonu
+        self.daemonize()
+        self.run()
+
+    def stop(self):
+        # Zastavení daemonu podle PID
+        try:
+            with open(self.pidfile, 'r') as pf:
+                pid = int(pf.read().strip())
+        except IOError:
+            pid = None
+
+        if not pid:
+            message = f"pidfile {self.pidfile} does not exist. Daemon not running?\n"
+            sys.stderr.write(message)
+            return
+
+        try:
+            while 1:
+                os.kill(pid, SIGTERM)
+                time.sleep(0.1)
+        except OSError as err:
+            if 'No such process' in str(err) and os.path.exists(self.pidfile):
+                os.remove(self.pidfile)
+            else:
+                print(str(err))
+                sys.exit(1)
+
+    def restart(self):
+        # Restartování daemonu
+        self.stop()
+        self.start()
+
+    def run(self):
+        # Tuto metodu je třeba předefinovat ve třídě potomku
+        raise NotImplementedError
+
+class MyDaemon(Daemon):
+    def run(self):
+        # Hlavní smyčka daemonu
+        while True:
+            with open("/path/to/your/logfile", "a") as log:
+                log.write("Current time: " + time.ctime() + "\n")
+            time.sleep(60)
+
+if __name__ == "__main__":
+    daemon = MyDaemon('/tmp/daemon-example.pid')
+    if len(sys.argv) == 2:
+        if 'start' == sys.argv[1]:
+            daemon.start()
+        elif 'stop' == sys.argv[1]:
+            daemon.stop()
+        elif 'restart' == sys.argv[1]:
+            daemon.restart()
+        else:
+            print("Unknown command")
+            sys.exit(2)
+        sys.exit(0)
+    else:
+        print("usage: %s start|stop|restart" % sys.argv[0])
+        sys.exit(2)
