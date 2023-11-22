@@ -1,7 +1,11 @@
 
 
 import requests
+import zipfile
+import os
+import pandas as pd
 
+aktualni_slozka = os.getcwd()
 # URL souboru, který chcete stáhnout
 url = 'https://www.ote-cr.cz/pubweb/attachments/20/2023/Normalizovane_TDD_2023_CZ.zip'
 
@@ -17,10 +21,11 @@ if response.status_code == 200:
 else:
     print(f"Nepodařilo se stáhnout soubor. Stavový kód: {response.status_code}")
 
+with zipfile.ZipFile('Normalizovane_TDD_2023_CZ.zip', 'r') as zip_ref:
+    zip_ref.extractall(aktualni_slozka)
 
-'''
-1. Do proměnné slozka si uložce cestu složky, ze které spouštíte skript
-2. Procházejte položky ve složce
-3. Pokud je v názvu položky "Normalizovane", tak tuto položku přesuňte na plochu a uživateli vypište "Soubor přesunut"
-4. Pokud se při procházení složky nepodaří najít soubor, vypište uživateli "Soubor nenalezen"
-'''
+df = pd.read_excel('Normalizovane_TDD_2023_CZ.xls', sheet_name='Normalizované TDD',skiprows=4)
+df = df.dropna()
+df_dny = df.groupby('Den').sum()
+#print(df.head())
+print(df_dny.head())
