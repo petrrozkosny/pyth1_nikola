@@ -1,0 +1,36 @@
+import pandas as pd
+
+# cesta json souboru
+cesta = r'C:\Users\petrrozkosny\OneDrive - CC Marketing Group\Plocha\PYTH1\PYTH1\ares.json'
+# vytvoreni pandas dataframe
+df = pd.read_json(cesta)
+# vyber prvniho radku ze sloupce zaznamy, zde se nachazi slovnik, ze ktereho vybirame klic [ezp]
+# ziskany objekt je ale opet slovnik, ze ktereho ziskavame klic [subjektEzp]    
+zaznamy  = df['zaznamy'][0]['ezp']['subjektEzp']
+
+# Vytvorte prazdny list datumy_zaniku
+# Zkuste uzivateli vypsat klic ico
+# Pokud klic ico ve slovniku je, vypiste uzivateli "ico nalezeno", hodnotu si ulozte do promenne ico
+
+# Pokud klic ico ve slovniku neni, vypiste uzivateli "ico nenalezeno"
+
+'''
+Prochazejte slovnikem zaznamy, zde mame nasledujici ukoly
+1. Pokud se nam podari najit klic datumZaniku, tak tuto hodnotu pridejme do listu
+2. Pokud se nam nepodari ani v jedne z iteraci najit datumZaniku, tj. list datumy_zaniku je prazdny, vypiste uzivateli "datum zaniku nenalezen"
+'''
+
+# Pokud je hodnota typu dictionary, tj. type(v) == dict, prochazejte timto vnorenym slovnikem a vypisujte jeho klice a hodnoty
+
+# Pokud je hodnota typu list, tj. type(v) == list, prochazejte timto vnorenym listem a vypisujte jeho hodnoty
+
+# Pokud neni splneno ani jedno z vyse uvedenych, vypiste hodnotu
+
+# Vytvorte funkci zkontroluj_kraj, ktera bude mit jeden pozicni parametr kraj
+# Funkce vrati uzivateli hodnotu:
+# - kraj nalezen, pokud hodnota klice kodKraje odpovida uzivatelem zadane hodnote
+# - kraj nenalezen, pokud hodnota klice kodKraje neodpovida uzivatelem zadane hodnote
+# vytvorte promennou kontrolovany_kraj, do ktere ulozite vstup uzivatele
+# Pokud se vstup uzivatele podari prevest na cislo, zavolejte funkci zkontroluj_kraj s na cislo prevedenou hodnotou a vypiste vysledek
+# Pokud se vstup uzivatele nepodari prevest na cislo, vypiste uzivateli "Neplatny vstup"
+
