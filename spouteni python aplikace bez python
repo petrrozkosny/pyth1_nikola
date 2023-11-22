@@ -1,0 +1,16 @@
+PyInstaller: PyInstaller je nástroj, který umožňuje konvertovat Python aplikace do spustitelných souborů, které jsou nezávislé na předchozí instalaci Pythonu. Tento nástroj sbalí váš program a všechny jeho závislosti do jednoho souboru nebo složky. Uživatelé pak mohou aplikaci spustit bez instalace Pythonu.
+
+cx_Freeze: cx_Freeze je další nástroj pro vytváření spustitelných souborů z Python aplikací. Podobně jako PyInstaller, cx_Freeze „zmrazí“ Python skript do spustitelného souboru pro Windows, MacOS nebo Linux.
+
+Auto-Py-To-Exe: Auto-Py-To-Exe je grafické rozhraní pro PyInstaller. Umožňuje snadněji konfigurovat proces balení aplikace pomocí grafického uživatelského rozhraní místo příkazové řádky.
+
+Py2exe: Py2exe je další nástroj specifický pro Windows, který umožňuje převést Python skripty na spustitelné soubory pro Windows.
+
+Vytvoření instalačního balíčku: Můžete také vytvořit instalační balíček, který bude obsahovat jak vaši aplikaci, tak Python interpreter. Tento přístup je složitější, ale umožňuje větší kontrolu nad tím, jak bude aplikace nainstalována a spuštěna.
+
+Možnosti vytvoření instalačního balíčku:
+
+Inno Setup (pro Windows): Tento nástroj umožňuje vytvořit plně funkční instalační balíček pro Windows.
+NSIS (Nullsoft Scriptable Install System): Další populární nástroj pro vytváření instalačních balíčků pro Windows.
+Debreate (pro Linux): Pro vytváření Debian balíčků.
+PackageMaker (pro MacOS): Pro vytváření instalačních balíčků pro MacOS.
