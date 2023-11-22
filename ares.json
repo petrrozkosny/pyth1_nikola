@@ -1,0 +1,55 @@
+{
+  "icoId": "ARES_44814020",
+  "zaznamy": [
+    {
+      "ezp": {
+        "osobaEzp": {
+          "jmeno": "string",
+          "prijmeni": "string",
+          "titulPredJmenem": "string",
+          "titulZaJmenem": "string",
+          "datumNarozeni": "2023-11-22",
+          "typAngazma": "string"
+        },
+        "subjektEzp": {
+          "ico": "59051869",
+          "obchodniJmeno": "string",
+          "sidlo": {
+            "kodStatu": "str",
+            "nazevStatu": "string",
+            "kodKraje": 999,
+            "nazevKraje": "string",
+            "kodOkresu": 9999,
+            "nazevOkresu": "string",
+            "kodObce": 999999,
+            "nazevObce": "string",
+            "kodSpravnihoObvodu": 999,
+            "nazevSpravnihoObvodu": "string",
+            "kodMestskehoObvodu": 999,
+            "nazevMestskehoObvodu": "string",
+            "kodMestskeCastiObvodu": 999999,
+            "kodUlice": 9999999,
+            "nazevMestskeCastiObvodu": "string",
+            "nazevUlice": "string",
+            "cisloDomovni": 9999,
+            "doplnekAdresy": "string",
+            "kodCastiObce": 999999,
+            "cisloOrientacni": 999,
+            "cisloOrientacniPismeno": "s",
+            "nazevCastiObce": "string",
+            "kodAdresnihoMista": 999999999,
+            "psc": 99999,
+            "textovaAdresa": "string"
+          },
+          "pravniForma": "728",
+          "financniUrad": "531",
+          "datumVzniku": "2023-11-22",
+          "datumZaniku": "2023-11-22",
+          "datumAktualizace": "2023-11-22",
+          "dic": "string",
+          "odkaz": "string"
+        }
+      }
+    }
+  ]
+}
