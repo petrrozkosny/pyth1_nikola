@@ -1,0 +1,38 @@
+import requests
+from bs4 import BeautifulSoup as bs
+import re
+import pandas as pd
+import datetime
+
+datum = datetime.date.today()
+vystup = {}
+vyraz = r'price.:.([\d]{1,10})'
+adresy = [
+'https://www.czc.cz/tcl-65c735-164cm/342494a/produkt',
+'https://www.czc.cz/lego-minecraft-21246-bitva-v-deep-darku/363112a/produkt',
+'https://www.czc.cz/marshall-major-iv-bluetooth-cerna/311135a/produkt']
+try:
+    df_excel = pd.read_excel('vystupy.xlsx')
+except:
+    df_excel = pd.DataFrame()
+
+for adresa in adresy:
+# volame konkretni url adresu
+    r = requests.get(adresa)
+    if r.status_code == 200:
+       
+        try:
+            ceny = re.findall(vyraz,str(r.content))[0]
+        except:
+            ceny = None
+        vystup[adresa] = ceny
+
+df = pd.DataFrame.from_dict(vystup,orient='index')
+df.reset_index(inplace=True)
+df.columns = ['url','cena']
+df['datum'] = datum
+
+if not df_excel.empty:
+    df = pd.concat([df_excel,df],ignore_index=True)
+
+df.to_excel('vystupy.xlsx',index=False)
