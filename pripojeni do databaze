@@ -1,0 +1,36 @@
+
+# https://learn.microsoft.com/en-us/sql/connect/odbc/download-odbc-driver-for-sql-server?view=sql-server-ver16#download-for-windows
+
+import pyodbc
+
+server = 'rozkosny-skoleni.database.windows.net' 
+database = 'skoleni' 
+username = 'skoleni' 
+password = 'Sochorova.38' 
+timeout = 60
+# Vytvoření řetězce připojení s driverem "SQL Server"
+
+# Nazev nainstalovaneho driveru, postup zjisteni zde: https://learn.microsoft.com/cs-cz/sql/database-engine/configure-windows/check-the-odbc-sql-server-driver-version-windows?view=sql-server-ver16
+driver= '{ODBC Driver 18 for SQL Server}'
+
+# Připojení k databázi
+conn = pyodbc.connect('DRIVER='+driver+';SERVER=tcp:'+server+';PORT=1433;DATABASE='+database+';UID='+username+';PWD='+ password)
+
+# Vytvoření kurzoru, tj. objektu sloužícího pro interakci s databází
+# Přes kurzor posíláme příkazy skrze připojení (conn)
+cursor = conn.cursor()
+# Exekuce SQL dotazu, v cursor máme výsledek SQL dotazu
+cursor.execute("SELECT * FROM dbo.dim_geo")
+
+# Iterujeme cursorem, kdy implicitně voláme metodu fetchone(),
+# která vrací jednotlivé řádky
+# Šla by použít i metoda fetchall(), která vrací všechny řádky
+
+
+for row in cursor:
+    print(row)
+
+# Uzavření kurzoru, uvolnění prostředků pro další použití
+cursor.close()
+# Uzavření připojení k databázi
+conn.close()
